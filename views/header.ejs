@@ -1,0 +1,123 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="css/header.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <title>Vamos estudar</title>
+   </head>
+   <body>
+      <nav class="sidebar close">
+         <header>
+            <div class="image-text">
+               <span class="image">
+               <img src="images/istec.png" alt="logo">
+               </span>
+               <div class="text logo-text">
+                  <span class="name">Estudos</span>
+                  <% if(user) { %>
+                    <span class="profession"><%= (user.username || "") %></span>
+                  <% } %>
+               </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+         </header>
+         <div class="menu-bar">
+            <div class="menu">
+               <li class="search-box">
+                  <a href="/">
+                     <p>🏠</p>
+                     <span class="text nav-text"> |  Pagina Principal</span>
+                  </a>
+               </li>
+               <li class="search-box">
+                  <a href="/classes">
+                     <p>📚</p>
+                     <span class="text nav-text"> |  Cadeiras</span>
+                  </a>
+               </li>
+               </ul>
+            </div>
+            <div class="bottom-content">
+               <li class="">
+                  <% if(user) { %>
+                    <a href="/logout">
+                    <i class='bx bx-log-out icon' ></i>
+                   <span class="text nav-text">Encerrar Sessão</span>
+                  <% } else { %>
+                    <a href="/login">
+                    <i class='bx bx-log-out icon' ></i>
+                    <span class="text nav-text">Fazer Login</span>
+                    <% } %>
+                  </a>
+               </li>
+               <li class="mode">
+                  <div class="sun-moon">
+                     <i class='bx bx-moon icon moon'></i>
+                     <i class='bx bx-sun icon sun'></i>
+                  </div>
+                  <span class="mode-text text">Dark mode</span>
+                  <div class="toggle-switch">
+                     <span class="switch"></span>
+                  </div>
+               </li>
+            </div>
+         </div>
+      </nav>
+      <script>
+        const body = document.querySelector('body'),
+        sidebar = body.querySelector('nav'),
+        toggle = body.querySelector(".toggle"),
+        searchBtn = body.querySelector(".search-box"),
+        modeSwitch = body.querySelector(".toggle-switch"),
+        modeText = body.querySelector(".mode-text");
+        
+        
+        toggle.addEventListener("click" , () =>{
+            sidebar.classList.toggle("close");
+        })
+        
+        searchBtn.addEventListener("click" , () =>{
+            sidebar.classList.remove("close");
+        })
+
+        /*:root{
+    
+            --body-color: #E4E9F7;
+            --sidebar-color: #FFF;
+            --primary-color: #695CFE;
+            --primary-color-light: #F6F5FF;
+            --toggle-color: #DDD;
+            --text-color: #707070;
+        
+            
+            --tran-03: all 0.2s ease;
+            --tran-03: all 0.3s ease;
+            --tran-04: all 0.3s ease;
+            --tran-05: all 0.3s ease;
+        }*/
+        function toggleDarkMode(toggle){
+            console.log("Dark mode is "+ toggle);
+            if(toggle){
+                modeText.innerText = "Dark mode";
+                document.rootElement.style.setProperty("--text-color", "white");
+                //change root primary-color
+            }else{
+                modeText.innerText = "Light mode";
+                document.rootElement.style.setProperty("--text-color", "black");
+            }
+            localStorage.setItem('study-cards-dark-mode', toggle);
+        }
+        modeSwitch.addEventListener("click" , (event) =>{
+            let toggle = body.classList.contains("dark");
+            body.classList.toggle("dark");
+            toggleDarkMode(!toggle);
+        });
+     </script>
+      
+      <section class="home">
+
