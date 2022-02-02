@@ -85,39 +85,24 @@
             sidebar.classList.remove("close");
         })
 
-        /*:root{
-    
-            --body-color: #E4E9F7;
-            --sidebar-color: #FFF;
-            --primary-color: #695CFE;
-            --primary-color-light: #F6F5FF;
-            --toggle-color: #DDD;
-            --text-color: #707070;
-        
-            
-            --tran-03: all 0.2s ease;
-            --tran-03: all 0.3s ease;
-            --tran-04: all 0.3s ease;
-            --tran-05: all 0.3s ease;
-        }*/
         function toggleDarkMode(toggle){
             console.log("Dark mode is "+ toggle);
             if(toggle){
                 modeText.innerText = "Dark mode";
-                document.rootElement.style.setProperty("--text-color", "white");
+                document.documentElement.style.setProperty("--text-color", "white");
                 //change root primary-color
             }else{
                 modeText.innerText = "Light mode";
-                document.rootElement.style.setProperty("--text-color", "black");
+                document.documentElement.style.setProperty("--text-color", "black");
             }
             localStorage.setItem('study-cards-dark-mode', toggle);
         }
-        modeSwitch.addEventListener("click" , (event) =>{
+        modeSwitch.addEventListener("click" , (event) =>{   
             let toggle = body.classList.contains("dark");
             body.classList.toggle("dark");
             toggleDarkMode(!toggle);
         });
      </script>
-      
       <section class="home">
+         <section class="text">
 

@@ -1,0 +1,52 @@
+.container {
+    font-size: calc((5vh+5vw)/2.2);
+}
+.cards {
+    width:100%;
+    height: 50vh;
+    display: grid;
+    grid-template-columns: 1vh 1vh 1vh 1vh;
+    grid-gap: 11vw;
+}
+.card {
+    position:relative;
+    width: 10vw;
+    margin-top: 2vh;
+    height: 22vh;
+}
+.card .color {
+    height:5vh;
+}
+
+.buttons {
+    position: absolute;
+    bottom: 0.7vh;
+    right: 0.4vw;
+    display: grid;
+    grid-gap: 0.5vw;
+    grid-auto-flow: column;
+    justify-content: end;
+    width: 10vw;
+    padding: 0em, 0em;
+    font-size: 1.8vh;
+}
+
+.buttons .button {
+    background-color: #9a66a0; 
+    width: fit-content; 
+    padding: 5px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+@media only screen and (max-width: 1400px) {
+    .card {
+        height: 25vh;
+    }
+    .cards {
+        grid-gap: 14vw;
+    }
+    .card {
+        width: 13vw;
+    }
+}

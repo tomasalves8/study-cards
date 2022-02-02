@@ -1,4 +1,21 @@
-<%- include('header.ejs') -%> 
-<br>
-
+<%- include('header.ejs') -%>
+<link rel="stylesheet" type="text/css" href="css/classes.css" />
+<div class="title">Cadeiras</div>
+<h6>Aqui podes encontrar todas as cadeiras no qual tens acesso.</h6>
+    <div class="cards">
+    <% for(var i=0; i<classes.length; i++) {%>
+    <div class="card">
+    <div class="color" style="background-color: <%= classes[i].color %>"></div>
+    <div class="bottom">
+    <div class="container" style="height: 100%;">
+        <div><%= classes[i].name %></div>
+    </div>
+    <div class="buttons">
+        <a href="/play/<%= classes[i].idClass %>"><div class="button">🎮</div></a>
+        <a href="/edit/<%= classes[i].idClass %>"><div class="button">✏️</div></a>
+    </div>
+    </div>
+    </div>
+    <% } %>
+</div>
 <%- include('footer.ejs') -%> 

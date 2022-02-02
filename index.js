@@ -42,7 +42,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/classes', (req, res) => {
-     res.render('classes.ejs');
+    var classes = {};
+    connection.query('SELECT * FROM class', (err, rows) => {
+        if (err) {
+            console.log(err);
+            res.render('classes.ejs', {classes: {}});
+        } else {
+            classes = rows;
+            res.render('classes.ejs', {classes: classes});
+        }
+    });
  });
 
 app.get('/login', (req, res) => {
@@ -66,7 +75,7 @@ app.post('/login', (req, res) => {
             if(results[0].password === hash){
                 req.session.user = results[0];
                 req.session.user.password = null;
-                res.redirect('/classes');
+                res.redirect('/');
             }
             else{
                 res.render('login.ejs', {error: "Incorrect Details!"});
