@@ -91,7 +91,7 @@ app.all('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/class/:classID', (req, res) => 
+app.get('/class/:classID', (req, res) => {
     let classID = req.params.classID;
     connection.query('SELECT * FROM class WHERE idClass = ?', [classID], (err, results) => {
         if(err) throw err;
