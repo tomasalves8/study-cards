@@ -91,6 +91,48 @@ app.all('/logout', (req, res) => {
     res.redirect('/');
 });
 
+app.get('/class/:classID', (req, res) => 
+    let classID = req.params.classID;
+    connection.query('SELECT * FROM class WHERE idClass = ?', [classID], (err, results) => {
+        if(err) throw err;
+        if(results.length > 0){
+            classVar = results[0];
+            connection.query('SELECT * FROM card WHERE idClass = ?', [classID], (err, results) => {
+                if(err) throw err;
+                if(results.length > 0){
+                    classVar.cards = results;
+                }else{
+                    classVar.cards = {};
+                }
+                res.render('class.ejs', {classVar: classVar});
+            });
+        }else{
+            res.redirect('/');
+        }
+    });
+});
+
+app.get('/card/:cardID', (req, res) => {
+    let classID = req.params.classID;
+    connection.query('SELECT * FROM class WHERE idClass = ?', [classID], (err, results) => {
+        if(err) throw err;
+        if(results.length > 0){
+            classVar = results[0];
+            connection.query('SELECT * FROM card WHERE idClass = ?', [classID], (err, results) => {
+                if(err) throw err;
+                if(results.length > 0){
+                    classVar.cards = results;
+                }else{
+                    classVar.cards = {};
+                }
+                res.render('class.ejs', {classVar: classVar});
+            });
+        }else{
+            res.redirect('/');
+        }
+    });
+});
+
 app.get('/hashpassword/:password/', (req, res) => {
     let password = req.params.password;
     let hash = crypto.createHash('sha256').update(password).digest('base64');

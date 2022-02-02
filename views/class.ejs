@@ -1,0 +1,33 @@
+<%- include('header.ejs') -%>
+<link rel="stylesheet" type="text/css" href="/css/class.css" />
+<div class="title"> <%= classVar.name %> </div>
+<h4>Perguntas</h2>
+<table>
+    <tr>
+        <th>
+            Pergunta
+        </th>
+        <th>
+            Resposta
+        </th>
+        <th>
+            Editar
+        </th>
+    </tr>
+    <br>
+    <% for(var i=0; i<classVar.cards.length; i++) {%>
+    <tr>
+        <td style="padding-left: 15px;">
+            <%= classVar.cards[i].question %>
+        </td>
+        <td>
+            <%= classVar.cards[i].answer %>
+        </td>
+        <td>
+            <a href="/card/<%= classVar.cards[i].idCard %>"><div class="button">✏️</div></a>
+        </td>
+    </tr>
+    <% } %>
+</table>
+
+<%- include('footer.ejs') -%> 

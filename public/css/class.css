@@ -1,0 +1,17 @@
+table {
+    font-size: medium;
+    border: 1px solid red;
+    border-collapse: collapse;
+    width: 40%;
+}
+td {
+    padding-bottom: 0.8em;
+    text-align:center;
+}
+.button {
+    background-color: green; 
+    width: fit-content; 
+    padding: 4px;
+    border-radius: 10px;
+    display: inline-block;
+}
