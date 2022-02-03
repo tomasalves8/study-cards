@@ -37,11 +37,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
+function isLoggedIn(req){
+    return req.session.user;
+}
+
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
 app.get('/classes', (req, res) => {
+    if(!isLoggedIn(req)){
+        res.redirect("/");
+        return;
+    }
     var classes = {};
     connection.query('SELECT * FROM class', (err, rows) => {
         if (err) {
@@ -52,10 +60,10 @@ app.get('/classes', (req, res) => {
             res.render('classes.ejs', {classes: classes});
         }
     });
- });
+});
 
 app.get('/login', (req, res) => {
-    if(req.session.user){
+    if(isLoggedIn(req)){
         res.redirect('/classes');
         return;
     }
@@ -92,6 +100,10 @@ app.all('/logout', (req, res) => {
 });
 
 app.get('/class/:classID', (req, res) => {
+    if(!isLoggedIn(req)){
+        res.redirect("/");
+        return;
+    }
     let classID = req.params.classID;
     connection.query('SELECT * FROM class WHERE idClass = ?', [classID], (err, results) => {
         if(err) throw err;
@@ -112,26 +124,59 @@ app.get('/class/:classID', (req, res) => {
     });
 });
 
-app.get('/card/:cardID', (req, res) => {
+app.post('/class/:classID', (req, res) => {
+    if(!isLoggedIn(req)){
+        res.redirect("/");
+        return;
+    }
     let classID = req.params.classID;
-    connection.query('SELECT * FROM class WHERE idClass = ?', [classID], (err, results) => {
+    let question = req.body.question;
+    let answer = req.body.answer;
+    // insert into card
+    connection.query('INSERT INTO card (idClass, question, answer) VALUES (?, ?, ?)', [classID, question, answer], (err, results) => {
+        if(err) throw err;
+        res.redirect('/class/' + classID);
+    });
+});
+
+app.get('/class/:classID/play', (req, res) => {
+    if(!isLoggedIn(req)){
+        res.redirect("/");
+        return;
+    }
+    const numOfCards = 10;
+    let classID = req.params.classID;
+    connection.query('SELECT * FROM card WHERE idClass = ? ORDER BY RAND() LIMIT ?', [classID,numOfCards], (err, results) => {
         if(err) throw err;
         if(results.length > 0){
-            classVar = results[0];
-            connection.query('SELECT * FROM card WHERE idClass = ?', [classID], (err, results) => {
-                if(err) throw err;
-                if(results.length > 0){
-                    classVar.cards = results;
-                }else{
-                    classVar.cards = {};
-                }
-                res.render('class.ejs', {classVar: classVar});
-            });
+            res.render('play.ejs', {cards: results});
         }else{
-            res.redirect('/');
+            res.redirect('/class/' + classID);
         }
     });
 });
+
+app.get('/deleteCard/:cardID/', (req, res) => {
+    if(!isLoggedIn(req)){
+        res.redirect("/");
+        return;
+    }
+    let cardID = req.params.cardID;
+    // get classID
+    connection.query('SELECT idClass FROM card WHERE idCard = ?', [cardID], (err, results) => {
+        if(err) throw err;
+        if(results.length > 0){
+            let classID = results[0].idClass;
+            connection.query('DELETE FROM card WHERE idCard = ?', [cardID], (err, results) => {
+                if(err) throw err;
+                res.redirect('/class/' + classID);
+            });
+        }else{
+            res.redirect('/class/' + classID);
+        }
+    });   
+});
+
 
 app.get('/hashpassword/:password/', (req, res) => {
     let password = req.params.password;

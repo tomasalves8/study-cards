@@ -1,0 +1,44 @@
+<%- include('header.ejs') -%>
+<div class="title">Jogar</div>
+<div class="card" style="color: black;font-size:15px;background-color: green;width: fit-content;height:fit-content">
+    <div style="text-align: center;vertical-align: middle;line-height: 10vh; padding: 15px">
+        <div class="question"><%= cards[0].question %></div>
+    </div>
+</div>
+<div class="answer" style="font-size: 15px;display: none;">
+</div>
+<br>
+<div style="display: flex;flex-direction:row">
+    <button id="showAnswerBtn">Mostrar Resposta</button>
+    <button id="nextQuestionBtn">Proxima Pergunta</button>
+</div>
+
+
+<script>
+    let currentCard = 0;
+    let cards = <%- JSON.stringify(cards) %>;
+    let showAnswerBtn = document.getElementById('showAnswerBtn');
+    let nextQuestionBtn = document.getElementById('nextQuestionBtn');
+    let question = document.getElementsByClassName('question')[0];
+    let answer = document.getElementsByClassName('answer')[0];
+
+    showAnswerBtn.addEventListener('click', () => {
+        answer.style.display = 'block';
+        answer.innerHTML = "Resposta: " + cards[currentCard].answer;
+        showAnswerBtn.style.display = 'none';
+    });
+
+    nextQuestionBtn.addEventListener('click', () => {
+        currentCard++;
+        if (currentCard >= cards.length) {
+            // GAME OVER
+            alert('Fim de Jogo');
+        }
+        question.innerHTML = cards[currentCard].question;
+        answer.style.display = 'none';
+        if(showAnswerBtn.style.display == "none"){
+            showAnswerBtn.style.display = "block";
+        }
+    });
+</script>
+<%- include('footer.ejs') -%> 

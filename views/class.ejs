@@ -2,6 +2,13 @@
 <link rel="stylesheet" type="text/css" href="/css/class.css" />
 <div class="title"> <%= classVar.name %> </div>
 <h4>Perguntas</h2>
+<form action="" method="POST">
+    <input type="text" name="question" placeholder="Pergunta" required>
+    <input type="text" name="answer" placeholder="Resposta" required>
+    <button type="submit" name="submit">Adicionar</button>
+</form>
+
+<button onclick="window.location.href='/class/<%= classVar.idClass %>/play'">Jogar</button>
 <table>
     <tr>
         <th>
@@ -11,7 +18,7 @@
             Resposta
         </th>
         <th>
-            Editar
+            Apagar
         </th>
     </tr>
     <br>
@@ -24,7 +31,7 @@
             <%= classVar.cards[i].answer %>
         </td>
         <td>
-            <a href="/card/<%= classVar.cards[i].idCard %>"><div class="button">✏️</div></a>
+            <a href="/deleteCard/<%= classVar.cards[i].idCard %>"><div class="button">❌</div></a>
         </td>
     </tr>
     <% } %>
